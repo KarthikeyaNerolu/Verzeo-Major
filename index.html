@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-List</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    
+    <!-- StyleSheets -->
+    <link rel="stylesheet" href="/Assets/Stylesheets/style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merienda&family=STIX+Two+Math&family=Uchen&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* width: 100%; */
+            background: url('/Assets/Images/background.jpg') no-repeat;
+            background-size: cover; 
+        }
+
+        .container {
+            margin: 20px auto;
+            max-width: 1200px;
+            /* width: 100%; */
+            background: linear-gradient(150deg, rgb(218, 97, 255), rgb(79, 255, 232));
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        header h3 {
+            font-size: 32px;
+            word-spacing: 6px;
+            color: firebrick;
+            font-family: 'Merienda', cursive;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .addtask h3{
+            font-size: 22px;
+            color: mediumblue;
+            word-spacing: 3px;
+            font-family: 'Uchen', serif;
+            margin-top: 30px;
+            margin-left: 10px;
+        }
+
+        .container .inputtask {
+            display: inline-block;
+            height: 45px;
+            width: 100%;
+            margin: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .inputtask input {
+            width: 81%;
+            height: 100%;
+            background-color: antiquewhite;
+            border: 1px solid gainsboro;
+            font-size: 18px;
+            font-family: 'STIX Two Math', serif;
+            border-radius: 5px 0 0 5px;
+            padding-left: 15px;
+        }
+
+        .inputtask .priority {
+            display: inline-block;
+            width: auto;
+            height: 100%;
+            margin-left: 1%;
+            background: blanchedalmond;
+            color: black;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 18px;
+        }
+
+        .inputtask button {
+            width: auto;
+            padding-left: 20px;
+            padding-right: 20px;
+            height: 100%;
+            margin-top: 15px;
+            margin-left: 1%;
+            border: none;
+            outline: none;
+            background: rgb(163, 0, 95);
+            color: black;
+            font-family: 'STIX Two Math', serif;
+            font-size: 22px;
+            padding-top: 3px;
+            cursor: pointer;
+            border-radius: 5px;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .inputtask button.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .container .show h3{
+            font-size: 22px;
+            margin: 10px auto;
+            margin-left: 10px;
+            color: mediumblue;
+            word-spacing: 3px;
+            font-family: 'Uchen', serif;
+            margin-top: 30px;   
+        }
+
+        .container .display {
+            margin: 25px 0;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .display li {
+            width: 100%;
+            list-style: none;
+            font-size: 18px;
+            text-align: justify;
+            font-family: 'STIX Two Math', serif;
+            letter-spacing: 0.5px;
+            word-spacing: 1px;
+            line-height: 30px;
+            position: relative;
+            color: rgb(0, 0, 0);
+            border-radius: 3px;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 10px 0 0 10px;
+            cursor: default;
+            overflow: hidden;
+        }
+
+        .display li span {
+            position: absolute;
+            right: -45px;
+            bottom: 5px;
+            color: antiquewhite;
+            background: rgb(163, 0, 95);
+            /* color: green; */
+            height: 40px;
+            width: 45px;
+            text-align: center;
+            padding-top: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .display li:hover span {
+            right: 0px;
+        }
+
+        .sort h3 {
+            font-size: 22px;
+            margin: 10px auto;
+            margin-left: 10px;
+            color: mediumblue;
+            letter-spacing: 2px;
+            font-family: 'Uchen', serif;
+            margin-top: 30px;
+        }
+
+        .container .filter {
+            display: inline-block;
+            height: 45px;
+            width: 100%;
+            margin: 10px auto;
+        }
+
+        .filter button {
+            width: auto;
+            height: 100%;
+            border: none;
+            outline: none;
+            background: rgb(163, 0, 95);
+            color: antiquewhite;
+            font-size: 22px;
+            font-family: 'STIX Two Math', serif;
+            cursor: pointer;
+            border-radius: 10px;
+            /* margin-top: 25px; */
+            margin: 10px 6px;
+            padding: 6px 20px;
+        }
+
+        .container .footer {
+            width: 100%;
+            margin-top: 50px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer div {
+            display: inline-block;
+            width: auto;
+            background: antiquewhite;
+            height: auto;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            padding: 10px 30px;
+            font-size: 22px;
+            font-family: 'STIX Two Math', serif;
+        }
+
+        .footer button {
+            width: auto;
+            height: 45px;
+            border: none;
+            outline: none;
+            background: rgb(163, 0, 95);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-right: 2%;
+            margin-top: 10px;
+            padding: 6px 30px;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .footer button.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h3>Priority Based To Do List</h3>
+        </header>
+
+        
+
+        <section class="addtask">
+            <h3>Add New Task</h3>
+            <div class="inputtask">
+                <input type="text" placeholder="Add Your New Task">
+                <select disabled class="priority">
+                    <option disabled hidden selected value="null">Priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>               
+                </select>
+                <button><i class="fa fa-plus"></i></button>
+            </div>
+
+        </section>
+
+        
+
+        <section class="show">
+
+            <h3>Pending Tasks</h3>
+
+            <div class="display">
+                <!-- Getting Data from Local Storage -->
+            </div>
+            
+        </section>
+
+        
+
+        <section class="sort">
+            <h3>Filter</h3>
+            <div class="filter">
+                <button class="f1">High</button>
+                <button class="f2">Medium</button>
+                <button class="f3">Low</button>
+                <button class="all">Show All</button>
+            </div>
+        </section>
+
+        
+
+        <footer class="footer">
+            <div>
+                You have <span class="pending"> 0</span> pending task</span>
+            </div> 
+            <Button>Clear All</Button>
+        </footer>
+
+    </div>
+
+    <script>
+        // Getting all required elements from HTML Document
+        const inputText = document.querySelector(".inputtask input");
+        const priority = document.querySelector(".priority");
+        const addBtn = document.querySelector(".inputtask button");
+        const taskList = document.querySelector(".display");
+        const delAll = document.querySelector(".footer button");
+        const btnHigh = document.querySelector(".f1");
+        const btnMedium = document.querySelector(".f2");
+        const btnLow = document.querySelector(".f3");
+        const btnAll = document.querySelector(".all");
+
+        inputText.onkeyup = () => {
+            let userval = inputText.value;  // Getting User Entries
+            if(userval != '') {
+                priority.disabled = false;
+                priority.onchange = () => {
+                    let userpref = priority.value;
+                    if(userpref != "null") {
+                        addBtn.classList.add('active');
+                    }
+                    else {
+                        addBtn.classList.remove('active');
+                    }
+                }
+            }
+            else {
+                priority.value = "null";
+                priority.disabled = true;
+                addBtn.classList.remove('active');
+            }
+        }
+
+        addBtn.onclick = () => {
+            let userVal ={
+                task: inputText.value,
+                pref: priority.value
+            };
+            let locStorage = localStorage.getItem("New List");
+            if(locStorage == null) {
+                listArr = [];
+            }
+            else {
+                listArr = JSON.parse(locStorage);
+            }
+            listArr.push(userVal);
+            localStorage.setItem("New List", JSON.stringify(listArr));
+            showtask(0);
+            priority.disabled = true;
+            addBtn.classList.remove('active');
+        }
+
+        btnHigh.onclick = () => {
+            showtask(1);
+        }
+
+        btnMedium.onclick = () => {
+            showtask(2);
+        }
+
+        btnLow.onclick = () => {
+            showtask(3);
+        }
+
+        btnAll.onclick = () => {
+            showtask(0);
+        }
+
+        function showtask(indexno) {
+            let locStorage = localStorage.getItem("New List");
+            if(locStorage == null) {
+                listArr = [];
+            }
+            else {
+                listArr = JSON.parse(locStorage);
+            }
+            if(listArr.length > 0) {
+                delAll.classList.add("active"); // Active clear all button
+            }
+            else { 
+                delAll.classList.remove("active");  // Inactive the add button
+            }
+            let newLiAll = '';
+            let newLiHigh = '';
+            let newLiMedium = '';
+            let newLiLow = '';
+            let c1 = 0;
+            let c2 = 0;
+            let c3 = 0;
+            listArr.forEach((element, index) => {
+                if(element.pref == "high") {
+                    newLiAll += `<li style="background-color: red; color: white;"> ${element.task} <span onclick = "deletetask(${index})"><i class="fa fa-trash"></i></span></li>`;
+                    newLiHigh += `<li style="background-color: red; color: white;"> ${element.task} <span onclick = "deletetask(${index})"><i class="fa fa-trash"></i></span></li>`;
+                    c1++;
+                }
+                else if(element.pref == "medium") {
+                    newLiAll += `<li style="background-color: #ffbf00;"> ${element.task} <span onclick = "deletetask(${index})"><i class="fa fa-trash"></i></span></li>`;
+                    newLiMedium += `<li style="background-color: #ffbf00;"> ${element.task} <span onclick = "deletetask(${index})"><i class="fa fa-trash"></i></span></li>`;
+                    c2++;
+                }
+                else if(element.pref == "low") {
+                    newLiAll += `<li style="background-color: green;"> ${element.task} <span onclick = "deletetask(${index})"><i class="fa fa-trash"></i></span></li>`;
+                    newLiLow += `<li style="background-color: green;"> ${element.task} <span onclick = "deletetask(${index})"><i class="fa fa-trash"></i></span></li>`;
+                    c3++;
+                }
+            });
+            const pendingNum = document.querySelector(".pending");
+
+            if(indexno == 0) {
+                console.log(newLiAll);
+                taskList.innerHTML = newLiAll;
+                pendingNum.textContent = (c1+c2+c3);
+            }
+            else if(indexno == 1) {
+                taskList.innerHTML = newLiHigh;
+                pendingNum.textContent = c1 + " High";
+            }
+            else if(indexno == 2) {
+                taskList.innerHTML = newLiMedium;
+                pendingNum.textContent = c2 + " Medium";
+            }
+            else if(indexno == 3) {
+                taskList.innerHTML = newLiLow;
+                pendingNum.textContent = c3 + " Low";
+            }
+            inputText.value = "";
+            priority.value = "null";
+            priority.disabled = true;
+            addBtn.classList.remove("active");
+        }
+        
+        function deletetask(index) {
+            let locStorage = localStorage.getItem("New List"); 
+            listArr = JSON.parse(locStorage);    
+            listArr.splice(index, 1) 
+            localStorage.setItem("New List", JSON.stringify(listArr)) 
+            showtask(0); 
+        }
+
+        delAll.onclick = () => {
+            listArr = []; 
+            localStorage.setItem("New List", JSON.stringify(listArr)) 
+            showtask(0); 
+        }
+    </script>
+</body>
+</html>
